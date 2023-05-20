@@ -21,7 +21,12 @@ include(CommonCppFlags)
 # Library definition
 #-------------------------------------------------------------------------------------------
 file(GLOB EASTL_SOURCES "source/*.cpp")
-add_library(EASTL ${EASTL_SOURCES})
+
+set(EASTL_BUILD_TYPE STATIC)
+if(EASTL_SHARED_LIBRARY)
+    set(EASTL_BUILD_TYPE SHARED)
+endif()
+add_library(EASTL ${EASTL_BUILD_TYPE} ${EASTL_SOURCES})
 
 if (MSVC)
     set(EASTL_NATVIS_DIR "doc")
@@ -49,6 +54,9 @@ add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 add_definitions(-DEASTL_OPENSOURCE=1)
 if (EASTL_STD_ITERATOR_CATEGORY_ENABLED)
   add_definitions(-DEASTL_STD_ITERATOR_CATEGORY_ENABLED=1)
+endif()
+if (EASTL_SHARED_LIBRARY)
+  add_definitions(-DEA_DLL=1)
 endif()
 
 #-------------------------------------------------------------------------------------------
