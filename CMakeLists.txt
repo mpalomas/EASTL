@@ -60,7 +60,10 @@ if (EASTL_STD_ITERATOR_CATEGORY_ENABLED)
   add_definitions(-DEASTL_STD_ITERATOR_CATEGORY_ENABLED=1)
 endif()
 if (EASTL_SHARED_LIBRARY)
-  add_definitions(-DEA_DLL=1)
+    target_compile_definitions(EASTL PUBLIC EA_DLL)
+    if(MSVC OR CYGWIN)
+        target_compile_definitions(EASTL PRIVATE "EASTL_API=__declspec(dllexport)")
+    endif()
 endif()
 
 #-------------------------------------------------------------------------------------------
